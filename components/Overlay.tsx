@@ -3,18 +3,18 @@
 import { motion, MotionValue, useTransform } from "framer-motion";
 
 export default function Overlay({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
-  // Phase 1: Name stays until the last scroll, then fades out (0.55 to 0.75)
-  const opacity1 = useTransform(scrollProgress, [0, 0.55, 0.75], [1, 1, 0], { clamp: true });
-  const y1 = useTransform(scrollProgress, [0, 0.55, 0.75], [0, 0, -100], { clamp: true });
-  const display1 = useTransform(scrollProgress, (v) => v > 0.8 ? "none" : "block");
+  // Phase 1: Name fades out early to avoid overlap
+  const opacity1 = useTransform(scrollProgress, [0, 0.05, 0.12], [1, 1, 0], { clamp: true });
+  const y1 = useTransform(scrollProgress, [0, 0.05, 0.12], [0, 0, -100], { clamp: true });
+  const display1 = useTransform(scrollProgress, (v) => v > 0.15 ? "none" : "block");
 
-  // Phase 2 (0.3 to 0.6): "I turn ideas into scalable digital solutions"
-  const opacity2 = useTransform(scrollProgress, [0.2, 0.35, 0.5, 0.6], [0, 1, 1, 0], { clamp: true });
-  const y2 = useTransform(scrollProgress, [0.2, 0.6], [100, -100], { clamp: true });
+  // Phase 2: "I turn ideas into scalable digital solutions"
+  const opacity2 = useTransform(scrollProgress, [0.12, 0.20, 0.28, 0.35], [0, 1, 1, 0], { clamp: true });
+  const y2 = useTransform(scrollProgress, [0.12, 0.35], [100, -100], { clamp: true });
 
-  // Phase 3 (0.6 to 0.9): "Student of AI Engineering (Computer Science)"
-  const opacity3 = useTransform(scrollProgress, [0.55, 0.7, 0.85, 0.95], [0, 1, 1, 0], { clamp: true });
-  const y3 = useTransform(scrollProgress, [0.55, 0.95], [100, -100], { clamp: true });
+  // Phase 3: "Student of AI Engineering" (Reaches full opacity rapidly)
+  const opacity3 = useTransform(scrollProgress, [0.35, 0.42, 0.9, 1], [0, 1, 1, 0], { clamp: true });
+  const y3 = useTransform(scrollProgress, [0.35, 1], [100, -100], { clamp: true });
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-center items-center overflow-hidden">
