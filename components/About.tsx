@@ -10,7 +10,7 @@ export default function About() {
   ];
 
   return (
-    <section className="relative z-20 bg-[#121212] py-24 px-6 md:px-12 lg:px-24 border-t border-white/5">
+    <section id="about" className="relative z-20 bg-[#121212] py-24 px-6 md:px-12 lg:px-24 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -22,7 +22,7 @@ export default function About() {
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg flex items-center gap-4">
              About Me
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-rose-400 to-purple-500 rounded-full mt-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 rounded-full mt-6"></div>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
@@ -46,7 +46,7 @@ export default function About() {
             </p>
             
             <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl glass mt-4">
-              <MapPin className="text-rose-400" size={24} />
+              <MapPin className="text-amber-400" size={24} />
               <span className="text-white font-medium">Kolkata, West Bengal</span>
             </div>
           </motion.div>
@@ -60,11 +60,11 @@ export default function About() {
             className="lg:col-span-5 relative"
           >
             {/* Glowing background blob */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 to-purple-500/10 blur-3xl -z-10 rounded-full"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/20 to-amber-600/10 blur-3xl -z-10 rounded-full"></div>
             
             <div className="glass p-8 md:p-10 rounded-3xl h-full border border-white/10">
               <div className="flex items-center gap-3 mb-8">
-                 <Terminal className="text-purple-400" size={28} />
+                 <Terminal className="text-amber-400" size={28} />
                  <h3 className="text-2xl font-bold text-white tracking-wide">Core Traits</h3>
               </div>
               <div className="flex flex-wrap gap-3">

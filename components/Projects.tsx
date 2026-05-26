@@ -35,7 +35,7 @@ export default function Projects() {
   ];
 
   return (
-    <section className="min-h-screen relative z-20 bg-[#121212] py-24 px-6 md:px-12 lg:px-24">
+    <section id="projects" className="min-h-screen relative z-20 bg-[#121212] py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
@@ -43,8 +43,8 @@ export default function Projects() {
             <p className="text-xl text-white/50 max-w-xl">A collection of my recent projects focusing on AI, management systems, and gamified experiences.</p>
           </div>
           <div className="flex gap-6 items-center">
-             <a href="mailto:ishan200716@gmail.com" className="text-white hover:text-rose-400 transition-colors tracking-wide">ishan200716@gmail.com</a>
-             <a href="https://www.linkedin.com/in/ishan-singh-b84b1a346/" target="_blank" className="font-semibold text-black bg-white px-5 py-2 rounded-full hover:bg-rose-400 hover:text-black transition-colors shadow-lg">LinkedIn</a>
+             <a href="mailto:ishan200716@gmail.com" className="text-white hover:text-amber-400 transition-colors tracking-wide">ishan200716@gmail.com</a>
+             <a href="https://www.linkedin.com/in/ishan-singh-b84b1a346/" target="_blank" className="font-semibold text-black bg-white px-5 py-2 rounded-full hover:bg-amber-400 hover:text-black transition-colors shadow-lg">LinkedIn</a>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default function Projects() {
                      <span key={t} className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-white/10 rounded-full text-white">{t}</span>
                    ))}
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-rose-300 transition-colors drop-shadow-md">{proj.title}</h3>
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-amber-300 transition-colors drop-shadow-md">{proj.title}</h3>
                 <p className="text-white/60 leading-relaxed font-medium">{proj.desc}</p>
               </div>
               

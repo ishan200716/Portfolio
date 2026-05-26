@@ -37,7 +37,7 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
         <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-white drop-shadow-2xl">
           Student of AI Engineering.
         </h2>
-        <p className="text-xl md:text-2xl text-rose-300 font-medium tracking-wide uppercase mt-4">
+        <p className="text-xl md:text-2xl text-amber-300 font-medium tracking-wide uppercase mt-4">
           Bridging Code and Intelligence
         </p>
       </motion.div>

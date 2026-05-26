@@ -5,9 +5,9 @@ import { Mail, ArrowUpRight } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section className="relative z-20 bg-[#121212] py-32 px-6 md:px-12 lg:px-24 border-t border-white/5 overflow-hidden">
+    <section id="contact" className="relative z-20 bg-[#121212] py-32 px-6 md:px-12 lg:px-24 border-t border-white/5 overflow-hidden">
       {/* Background glow for aesthetic depth */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-rose-500/10 via-purple-500/5 to-transparent blur-[120px] -z-10 rounded-full"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-amber-500/15 via-amber-600/5 to-transparent blur-[120px] -z-10 rounded-full"></div>
 
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
@@ -16,7 +16,7 @@ export default function Contact() {
            viewport={{ once: true, margin: "-100px" }}
            transition={{ duration: 0.8 }}
         >
-          <h2 className="text-sm md:text-base font-bold tracking-[0.2em] text-rose-400 uppercase mb-4">
+          <h2 className="text-sm md:text-base font-bold tracking-[0.2em] text-amber-400 uppercase mb-4">
             What's Next?
           </h2>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 tracking-tight drop-shadow-xl">
@@ -42,7 +42,7 @@ export default function Contact() {
               <Mail size={20} />
               Say Hello
             </span>
-            <div className="absolute inset-0 bg-rose-300 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0"></div>
+            <div className="absolute inset-0 bg-amber-300 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0"></div>
             <span className="absolute z-10 flex items-center gap-2 text-black opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <Mail size={20} />
               Say Hello
