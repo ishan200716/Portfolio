@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useMotionValueEvent, MotionValue, motion, AnimatePresence } from "framer-motion";
 import { Loader2, Sparkles } from "lucide-react";
 
@@ -11,54 +11,22 @@ export default function ScrollyCanvas({ scrollProgress }: { scrollProgress: Moti
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [loadedCount, setLoadedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const animationFrameId = useRef<number | null>(null);
+  const currentFrameRef = useRef<number>(0);
 
-  // Preload images
-  useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
-    let count = 0;
-    
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      loadedImages.push(new Image());
-    }
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = loadedImages[i];
-      const frameNum = i.toString().padStart(2, "0");
-      img.src = `/sequence/frame_${frameNum}_delay-0.066s.webp`;
-      
-      img.onload = () => {
-        count++;
-        setLoadedCount(count);
-
-        if (i === 0 && canvasRef.current) {
-          const ctx = canvasRef.current.getContext("2d");
-          drawImageCover(ctx, canvasRef.current, img);
-        }
-
-        if (count === FRAME_COUNT) {
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 300);
-        }
-      };
-
-      img.onerror = () => {
-        count++;
-        setLoadedCount(count);
-        if (count === FRAME_COUNT) {
-          setIsLoading(false);
-        }
-      };
-    }
-    setImages(loadedImages);
-  }, []);
-
-  const drawImageCover = (ctx: CanvasRenderingContext2D | null, canvas: HTMLCanvasElement, img: HTMLImageElement) => {
+  const drawImageCover = useCallback((ctx: CanvasRenderingContext2D | null, canvas: HTMLCanvasElement, img: HTMLImageElement) => {
     if (!ctx || !img || !img.complete) return;
     
     const { innerWidth: width, innerHeight: height } = window;
-    canvas.width = width;
-    canvas.height = height;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
 
     const imgRatio = img.width / img.height;
     const canvasRatio = width / height;
@@ -77,21 +45,82 @@ export default function ScrollyCanvas({ scrollProgress }: { scrollProgress: Moti
 
     ctx.clearRect(0, 0, width, height);
     ctx.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
-  };
+    ctx.restore();
+  }, []);
+
+  // Preload images with async decoding
+  useEffect(() => {
+    const loadedImages: HTMLImageElement[] = [];
+    let count = 0;
+    
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      loadedImages.push(new Image());
+    }
+
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = loadedImages[i];
+      const frameNum = i.toString().padStart(2, "0");
+      img.src = `/sequence/frame_${frameNum}_delay-0.066s.webp`;
+      
+      const onImageLoad = () => {
+        count++;
+        setLoadedCount(count);
+
+        if (i === 0 && canvasRef.current) {
+          const ctx = canvasRef.current.getContext("2d");
+          drawImageCover(ctx, canvasRef.current, img);
+        }
+
+        if (count === FRAME_COUNT) {
+          setTimeout(() => setIsLoading(false), 200);
+        }
+      };
+
+      if (img.decode) {
+        img.decode()
+          .then(onImageLoad)
+          .catch(() => {
+            img.onload = onImageLoad;
+          });
+      } else {
+        img.onload = onImageLoad;
+      }
+
+      img.onerror = () => {
+        count++;
+        setLoadedCount(count);
+        if (count === FRAME_COUNT) setIsLoading(false);
+      };
+    }
+    setImages(loadedImages);
+  }, [drawImageCover]);
+
+  // RequestAnimationFrame throttled frame update
+  const scheduleDraw = useCallback((frameIndex: number) => {
+    currentFrameRef.current = frameIndex;
+    if (animationFrameId.current !== null) return;
+
+    animationFrameId.current = requestAnimationFrame(() => {
+      animationFrameId.current = null;
+      if (images.length === 0 || !canvasRef.current) return;
+      const idx = currentFrameRef.current;
+      const ctx = canvasRef.current.getContext("2d");
+      if (ctx && images[idx]) {
+        drawImageCover(ctx, canvasRef.current, images[idx]);
+      }
+    });
+  }, [images, drawImageCover]);
 
   useMotionValueEvent(scrollProgress, "change", (latest: number) => {
-    if (images.length === 0 || !canvasRef.current) return;
+    if (images.length === 0) return;
     const frameIndex = Math.min(
       FRAME_COUNT - 1,
       Math.max(0, Math.floor(latest * FRAME_COUNT))
     );
-    const ctx = canvasRef.current.getContext("2d");
-    if (ctx && images[frameIndex]) {
-      drawImageCover(ctx, canvasRef.current, images[frameIndex]);
-    }
+    scheduleDraw(frameIndex);
   });
 
-  // Handle window resize
+  // Handle window resize with throttling
   useEffect(() => {
     const handleResize = () => {
        if (images.length > 0 && canvasRef.current) {
@@ -104,9 +133,14 @@ export default function ScrollyCanvas({ scrollProgress }: { scrollProgress: Moti
           }
        }
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [images, scrollProgress]);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (animationFrameId.current !== null) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, [images, scrollProgress, drawImageCover]);
 
   const loadPercent = Math.min(100, Math.round((loadedCount / FRAME_COUNT) * 100));
 

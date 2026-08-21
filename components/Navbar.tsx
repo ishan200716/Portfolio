@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,11 +14,11 @@ export default function Navbar() {
       const windowHeight = window.innerHeight;
       const scrollY = window.scrollY;
 
-      // Detect if user has scrolled past hero section (approx 400vh)
+      // Detect if user has scrolled past hero section (approx 3.8 * windowHeight)
       setScrolledPastHero(scrollY > windowHeight * 3.8);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -66,9 +67,12 @@ export default function Navbar() {
             }}
             className="flex items-center gap-3 group pointer-events-auto cursor-pointer"
           >
-            <img
+            <Image
               src="/logo.png"
               alt="Ishan Singh Logo"
+              width={48}
+              height={48}
+              priority
               className="h-10 w-10 md:h-12 md:w-12 object-contain group-hover:scale-105 transition-all duration-300 rounded-full bg-white/5 p-1 border border-white/10"
             />
             <span className="text-lg md:text-xl font-bold tracking-[0.15em] bg-gradient-to-r from-white via-white to-amber-300 bg-clip-text text-transparent group-hover:text-amber-400 transition-colors duration-300">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowUpRight, ExternalLink } from "lucide-react";
 
-interface Project {
+export interface Project {
   title: string;
   desc: string;
   tags: string[];
@@ -15,31 +15,27 @@ interface Project {
 export default function Projects() {
   const [showAll, setShowAll] = useState(false);
 
+  // All 14 projects without guessed/placeholder links
   const projects: Project[] = [
-    // Highlighted / Recent Projects
     {
       title: "ShikshaBharat (AI Voice Platform)",
       desc: "An interactive AI-powered educational voice platform featuring real-time WebRTC voice streaming, chalkboard UI visualizers, and dynamic multi-agent handoffs between Aarvi and Vigyan Buddy.",
       tags: ["Voice AI", "LiveKit", "Murf Falcon TTS"],
-      githubUrl: "https://github.com/ishan200716/ShikshaBharat",
     },
     {
       title: "CommunityPulse",
       desc: "A real-time crisis response and community needs platform built for Google Solution Challenge, utilizing Gemini AI to process NGO survey data, score urgency, and match volunteers.",
       tags: ["Next.js", "Gemini AI", "Crisis Response"],
-      githubUrl: "https://github.com/ishan200716/CommunityPulse",
     },
     {
       title: "Aquiila Labs Platform",
       desc: "An enterprise IT staffing and SAP consulting web platform built with Next.js 16, React 19, Framer Motion animations, and modern client inquiry workflows.",
       tags: ["Next.js", "Staffing", "SAP Consulting"],
-      demoUrl: "https://aquiila.com",
     },
     {
       title: "Bangalir Hansal",
       desc: "A high-end scrollytelling web application for traditional Bengali cuisine, built with Next.js 14, Framer Motion, and scroll-linked HTML5 Canvas image sequences.",
       tags: ["Next.js", "Scrollytelling", "Restaurant"],
-      githubUrl: "https://github.com/ishan200716/Bangalir-Hansal",
     },
     {
       title: "AI Image Generator",
@@ -65,7 +61,6 @@ export default function Projects() {
       title: "Gym Membership Manager",
       desc: "A web application that manages gym member records, tracks payment histories, and automates active membership tracking.",
       tags: ["Web App", "Management", "Tracker"],
-      githubUrl: "https://github.com/ishan200716/fit-for-life-gym",
     },
     {
       title: "Sandbox AI Learning",
@@ -76,25 +71,21 @@ export default function Projects() {
       title: "Fit For Life Gym Portal",
       desc: "A web application for Fit For Life Unisex Gym backed by Google Sheets CRUD integration and admin authentication for member and payment tracking.",
       tags: ["Streamlit", "Python", "Google Sheets API"],
-      githubUrl: "https://github.com/ishan200716/fit-for-life-gym",
     },
     {
       title: "Fit For Life Web Platform & Manager",
       desc: "A web management portal and companion website for Fit For Life Gym, facilitating fitness program administration, scheduling, and client onboarding.",
       tags: ["Python", "Gym Management", "Web Portal"],
-      githubUrl: "https://github.com/ishan200716/fit-for-life-gym-manager",
     },
     {
       title: "Developer Portfolio",
       desc: "A modern developer portfolio built with Next.js 16, React 19, Tailwind CSS, and Framer Motion showcasing software engineering projects and technical skills.",
       tags: ["Next.js", "Portfolio", "Framer Motion"],
-      githubUrl: "https://github.com/ishan200716/Portfolio",
     },
     {
       title: "StaysLocal Accommodation Portal",
       desc: "A responsive web application for discovering and booking local stays, featuring dynamic search, Firebase backend integration, and client-side image compression.",
       tags: ["React", "Firebase", "Travel Booking"],
-      githubUrl: "https://github.com/ishan200716/stayslocal",
     },
   ];
 
@@ -142,7 +133,7 @@ export default function Projects() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                   layout
-                  className="glass p-8 rounded-3xl flex flex-col justify-between group hover:bg-white/10 hover:border-amber-400/30 hover:scale-[1.02] transition-all duration-500 min-h-[340px] border border-white/10 relative"
+                  className="glass p-8 rounded-3xl flex flex-col justify-between group hover:bg-white/10 hover:border-amber-400/30 hover:scale-[1.02] transition-all duration-500 min-h-[300px] border border-white/10 relative"
                 >
                   <div>
                     <div className="flex gap-2 flex-wrap mb-6">
@@ -163,34 +154,34 @@ export default function Projects() {
                     <p className="text-white/60 leading-relaxed font-medium text-sm mb-6">{proj.desc}</p>
                   </div>
 
-                  {/* Links Footer */}
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4 mt-auto">
-                    <div className="flex items-center gap-3">
-                      {proj.githubUrl && (
-                        <a
-                          href={proj.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`GitHub repository for ${proj.title}`}
-                          className="p-2.5 bg-white/5 hover:bg-white/15 rounded-full text-white/70 hover:text-white transition-colors border border-white/10"
-                        >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                        </a>
-                      )}
-                      {proj.demoUrl && (
-                        <a
-                          href={proj.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Live demo for ${proj.title}`}
-                          className="p-2.5 bg-white/5 hover:bg-white/15 rounded-full text-white/70 hover:text-amber-300 transition-colors border border-white/10"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      )}
-                    </div>
+                  {/* Links Footer (Only renders when valid user URLs are provided) */}
+                  {primaryLink && (
+                    <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4 mt-auto">
+                      <div className="flex items-center gap-3">
+                        {proj.githubUrl && (
+                          <a
+                            href={proj.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`GitHub repository for ${proj.title}`}
+                            className="p-2.5 bg-white/5 hover:bg-white/15 rounded-full text-white/70 hover:text-white transition-colors border border-white/10"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                          </a>
+                        )}
+                        {proj.demoUrl && (
+                          <a
+                            href={proj.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Live demo for ${proj.title}`}
+                            className="p-2.5 bg-white/5 hover:bg-white/15 rounded-full text-white/70 hover:text-amber-300 transition-colors border border-white/10"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
+                      </div>
 
-                    {primaryLink && (
                       <a
                         href={primaryLink}
                         target="_blank"
@@ -200,8 +191,8 @@ export default function Projects() {
                         <span>{proj.githubUrl ? "View Code" : "Live Demo"}</span>
                         <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                       </a>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </motion.div>
               );
             })}
