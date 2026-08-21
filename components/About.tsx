@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Code2, Sparkles, Terminal } from "lucide-react";
+import { MapPin, Terminal } from "lucide-react";
 
 export default function About() {
   const skills = [

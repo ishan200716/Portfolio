@@ -8,6 +8,7 @@ import About from "@/components/About";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Navbar from "@/components/Navbar";
+import BackToTop from "@/components/BackToTop";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,7 +20,7 @@ export default function Home() {
   });
 
   return (
-    <main className="w-full bg-[#121212] text-white">
+    <main className="w-full bg-[#121212] text-white relative">
       <Navbar />
       {/* 500vh container for the scrolling animation */}
       <div ref={containerRef} className="h-[500vh] w-full relative">
@@ -32,7 +33,7 @@ export default function Home() {
       <About />
       <Projects />
       <Contact />
-      
+      <BackToTop />
     </main>
   );
 }

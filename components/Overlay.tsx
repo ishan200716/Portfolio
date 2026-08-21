@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, MotionValue, useTransform } from "framer-motion";
+import { ChevronDown, MousePointer } from "lucide-react";
 
 export default function Overlay({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   // Phase 1: Name fades out early to avoid overlap
@@ -8,11 +9,14 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
   const y1 = useTransform(scrollProgress, [0, 0.05, 0.12], [0, 0, -100], { clamp: true });
   const display1 = useTransform(scrollProgress, (v) => v > 0.15 ? "none" : "block");
 
+  // Scroll Down Indicator opacity (fades out very quickly once scroll starts)
+  const scrollIndicatorOpacity = useTransform(scrollProgress, [0, 0.03], [1, 0], { clamp: true });
+
   // Phase 2: "I turn ideas into scalable digital solutions"
   const opacity2 = useTransform(scrollProgress, [0.12, 0.20, 0.28, 0.35], [0, 1, 1, 0], { clamp: true });
   const y2 = useTransform(scrollProgress, [0.12, 0.35], [100, -100], { clamp: true });
 
-  // Phase 3: "Student of AI Engineering" (Reaches full opacity rapidly)
+  // Phase 3: "Student of AI Engineering"
   const opacity3 = useTransform(scrollProgress, [0.35, 0.42, 0.9, 1], [0, 1, 1, 0], { clamp: true });
   const y3 = useTransform(scrollProgress, [0.35, 1], [100, -100], { clamp: true });
 
@@ -40,6 +44,22 @@ export default function Overlay({ scrollProgress }: { scrollProgress: MotionValu
         <p className="text-xl md:text-2xl text-amber-300 font-medium tracking-wide uppercase mt-4">
           Bridging Code and Intelligence
         </p>
+      </motion.div>
+
+      {/* Animated Scroll Down Indicator */}
+      <motion.div
+        style={{ opacity: scrollIndicatorOpacity }}
+        className="absolute bottom-10 flex flex-col items-center gap-2 text-white/60 font-medium text-xs tracking-widest uppercase"
+      >
+        <span className="flex items-center gap-1.5 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg">
+          Scroll to explore
+        </span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-5 h-5 text-amber-400" />
+        </motion.div>
       </motion.div>
 
     </div>
