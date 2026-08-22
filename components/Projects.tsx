@@ -1,102 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ArrowUpRight, ExternalLink } from "lucide-react";
-
-export interface Project {
-  title: string;
-  desc: string;
-  tags: string[];
-  githubUrl?: string;
-  demoUrl?: string;
-}
+import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { projectsData } from "@/lib/projectsData";
 
 export default function Projects() {
-  const [showAll, setShowAll] = useState(false);
-
-  // All 14 projects without guessed/placeholder links
-  const projects: Project[] = [
-    {
-      title: "ShikshaBharat (AI Voice Platform)",
-      desc: "An interactive AI-powered educational voice platform featuring real-time WebRTC voice streaming, chalkboard UI visualizers, and dynamic multi-agent handoffs between Aarvi and Vigyan Buddy.",
-      tags: ["Voice AI", "LiveKit", "Murf Falcon TTS"],
-    },
-    {
-      title: "CommunityPulse",
-      desc: "A real-time crisis response and community needs platform built for Google Solution Challenge, utilizing Gemini AI to process NGO survey data, score urgency, and match volunteers.",
-      tags: ["Next.js", "Gemini AI", "Crisis Response"],
-    },
-    {
-      title: "Aquiila Labs Platform",
-      desc: "An enterprise IT staffing and SAP consulting web platform built with Next.js 16, React 19, Framer Motion animations, and modern client inquiry workflows.",
-      tags: ["Next.js", "Staffing", "SAP Consulting"],
-      demoUrl: "https://aquiilalabs.com",
-    },
-    {
-      title: "Bangalir Hansal",
-      desc: "A high-end scrollytelling web application for traditional Bengali cuisine, built with Next.js 14, Framer Motion, and scroll-linked HTML5 Canvas image sequences.",
-      tags: ["Next.js", "Scrollytelling", "Restaurant"],
-      githubUrl: "https://github.com/ishan200716/Bangalir-Hansal",
-    },
-    {
-      title: "AI Image Generator",
-      desc: "An advanced image generation web interface built using ComfyUI workflows and Generative AI pipelines for custom artwork rendering.",
-      tags: ["AI", "GenAI", "ComfyUI"],
-    },
-    {
-      title: "Hospital Management AI",
-      desc: "Civilians can type in their symptoms and AI will analyse health data to recommend appropriate medical specialists and departments.",
-      tags: ["AI", "Healthcare", "NLP"],
-    },
-    {
-      title: "Custom Chatbots",
-      desc: "A suite of custom LLM-powered chatbots crafted according to precise personal needs, domain knowledge, and unique operational workflows.",
-      tags: ["LLM", "Chatbot", "AI"],
-    },
-    {
-      title: "Gamified To-Do App",
-      desc: "Productivity application that categorizes tasks based on urgency, awards points upon completion, and includes a real-time daily timetable viewer.",
-      tags: ["Productivity", "Gamification", "App"],
-    },
-    {
-      title: "Gym Membership Manager",
-      desc: "A web application that manages gym member records, tracks payment histories, and automates active membership tracking.",
-      tags: ["Web App", "Management", "Tracker"],
-      githubUrl: "https://github.com/ishan200716/fit-for-life-gym",
-    },
-    {
-      title: "Sandbox AI Learning",
-      desc: "An modern educational platform where AI is deeply integrated into curricula to accelerate learning speeds and personalize study pathways.",
-      tags: ["EdTech", "AI", "Platform"],
-    },
-    {
-      title: "Fit For Life Gym Portal",
-      desc: "A web application for Fit For Life Unisex Gym backed by Google Sheets CRUD integration and admin authentication for member and payment tracking.",
-      tags: ["Streamlit", "Python", "Google Sheets API"],
-      githubUrl: "https://github.com/ishan200716/fit-for-life-gym",
-    },
-    {
-      title: "Fit For Life Web Platform & Manager",
-      desc: "A web management portal and companion website for Fit For Life Gym, facilitating fitness program administration, scheduling, and client onboarding.",
-      tags: ["Python", "Gym Management", "Web Portal"],
-      githubUrl: "https://github.com/ishan200716/fit-for-life-gym-manager",
-    },
-    {
-      title: "Developer Portfolio",
-      desc: "A modern developer portfolio built with Next.js 16, React 19, Tailwind CSS, and Framer Motion showcasing software engineering projects and technical skills.",
-      tags: ["Next.js", "Portfolio", "Framer Motion"],
-      githubUrl: "https://github.com/ishan200716/Portfolio",
-    },
-    {
-      title: "StaysLocal Accommodation Portal",
-      desc: "A responsive web application for discovering and booking local stays, featuring dynamic search, Firebase backend integration, and client-side image compression.",
-      tags: ["React", "Firebase", "Travel Booking"],
-      githubUrl: "https://github.com/ishan200716/stayslocal",
-    },
-  ];
-
-  const visibleProjects = showAll ? projects : projects.slice(0, 6);
+  // Show featured projects on home page
+  const visibleProjects = projectsData.filter((p) => p.featured).slice(0, 6);
 
   return (
     <section id="projects" className="min-h-screen relative z-20 bg-[#121212] py-24 px-6 md:px-12 lg:px-24">
@@ -134,7 +45,7 @@ export default function Projects() {
 
               return (
                 <motion.div
-                  key={proj.title}
+                  key={proj.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -161,7 +72,7 @@ export default function Projects() {
                     <p className="text-white/60 leading-relaxed font-medium text-sm mb-6">{proj.desc}</p>
                   </div>
 
-                  {/* Links Footer (Only renders when valid user URLs are provided) */}
+                  {/* Links Footer */}
                   {primaryLink && (
                     <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4 mt-auto">
                       <div className="flex items-center gap-3">
@@ -207,15 +118,15 @@ export default function Projects() {
         </motion.div>
 
         <div className="mt-16 text-center">
-          <button
-            onClick={() => setShowAll(!showAll)}
+          <Link
+            href="/projects"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-black font-bold text-base rounded-full shadow-xl hover:shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
           >
-            <span>{showAll ? "Show Less" : `View All (${projects.length}) Projects`}</span>
-            <ChevronDown
-              className={`w-5 h-5 transition-transform duration-300 ${showAll ? "rotate-180" : ""}`}
-            />
-          </button>
+            <span>View All Projects ({projectsData.length})</span>
+            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+          </Link>
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ import { useScroll } from "framer-motion";
 import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
 import About from "@/components/About";
+import Timeline from "@/components/Timeline";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Navbar from "@/components/Navbar";
@@ -31,6 +32,7 @@ export default function Home() {
       </div>
 
       <About />
+      <Timeline />
       <Projects />
       <Contact />
       <BackToTop />
