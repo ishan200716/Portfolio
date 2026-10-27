@@ -1,9 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, ArrowUpRight } from "lucide-react";
+import { Mail, ArrowUpRight, CreditCard, Sparkles, ShieldCheck } from "lucide-react";
+import PaymentModal from "./PaymentModal";
 
 export default function Contact() {
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
   return (
     <section id="contact" className="relative z-20 bg-[#121212] py-32 px-6 md:px-12 lg:px-24 border-t border-white/5 overflow-hidden">
       {/* Background glow for aesthetic depth */}
@@ -32,7 +36,7 @@ export default function Contact() {
            whileInView={{ opacity: 1, scale: 1 }}
            viewport={{ once: true, margin: "-100px" }}
            transition={{ duration: 0.5, delay: 0.2 }}
-           className="flex flex-col sm:flex-row items-center justify-center gap-6"
+           className="flex flex-col sm:flex-row items-center justify-center gap-5 flex-wrap"
         >
           <a 
             href="mailto:ishan200716@gmail.com" 
@@ -49,6 +53,15 @@ export default function Contact() {
             </span>
           </a>
 
+          {/* Razorpay Payment Window Trigger Button */}
+          <button
+            onClick={() => setIsPaymentModalOpen(true)}
+            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-bold text-lg rounded-full transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40"
+          >
+            <CreditCard size={20} className="text-black" />
+            <span>Make a Payment</span>
+          </button>
+
           <a 
             href="https://www.linkedin.com/in/ishan-singh-b84b1a346/"
             target="_blank"
@@ -58,6 +71,42 @@ export default function Contact() {
             LinkedIn
             <ArrowUpRight size={20} className="text-white/50 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
           </a>
+        </motion.div>
+
+        {/* Dedicated Razorpay Support & Quick Pay Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mt-12 max-w-2xl mx-auto p-6 sm:p-7 rounded-3xl bg-white/[0.03] border border-amber-500/20 backdrop-blur-xl relative overflow-hidden text-left shadow-2xl"
+        >
+          <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-10">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-semibold tracking-wider uppercase text-amber-400">
+                  Razorpay Verified &bull; 100% Secure
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-1.5">
+                Support & Direct Payments
+              </h3>
+              <p className="text-xs sm:text-sm text-white/60 max-w-md leading-relaxed">
+                Accepting UPI (GPay, PhonePe, Paytm), Credit/Debit Cards & Net Banking with instant receipts.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setIsPaymentModalOpen(true)}
+              className="shrink-0 flex items-center gap-2 px-6 py-3 bg-amber-400 hover:bg-amber-300 text-black font-bold text-sm rounded-full transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <CreditCard size={17} />
+              <span>Pay Now</span>
+            </button>
+          </div>
         </motion.div>
         
         {/* Social Links Bottom bar */}
@@ -93,6 +142,12 @@ export default function Contact() {
           </div>
         </motion.div>
       </div>
+
+      {/* Razorpay Payment Window Modal */}
+      <PaymentModal 
+        isOpen={isPaymentModalOpen} 
+        onClose={() => setIsPaymentModalOpen(false)} 
+      />
     </section>
   );
 }

@@ -20,7 +20,7 @@ const milestones: Milestone[] = [
   {
     id: 1,
     date: "2023 - March",
-    title: "Graduated Class X",
+    title: "Completed Class X",
     institution: "Gospel Home School (ICSE)",
     badge: "94.6%",
     description: "Completed secondary education with high distinction under the ICSE curriculum.",
@@ -31,7 +31,7 @@ const milestones: Milestone[] = [
   {
     id: 2,
     date: "2025 - March",
-    title: "Graduated Class XII",
+    title: "Completed Class XII",
     institution: "Aditya Birla Vani Bharati (CBSE)",
     badge: "91.4%",
     description: "Completed higher secondary education in Science stream under CBSE.",
